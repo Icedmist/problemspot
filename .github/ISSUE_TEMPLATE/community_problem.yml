@@ -1,0 +1,53 @@
+name: Community problem or use case
+description: Share a community problem or use case that ProblemSpot should support.
+title: "[Community problem]: "
+labels: ["community-feedback", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to describe a community need or product use case. This issue tracker is public: do not include private evidence, exact home addresses, phone numbers, identity documents, or information that could put someone at risk. For sensitive reports, use the appropriate private channel instead.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem?
+      description: Describe the challenge in general terms.
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: General location or context (optional)
+      description: Use a broad area or non-identifying context only.
+    validations:
+      required: false
+  - type: textarea
+    id: affected
+    attributes:
+      label: Who is affected, and how?
+      description: Avoid identifying individuals without their consent.
+    validations:
+      required: true
+  - type: textarea
+    id: current_workaround
+    attributes:
+      label: Current workaround or possible opportunity
+      description: What do people do today? What might help?
+    validations:
+      required: false
+  - type: textarea
+    id: product_fit
+    attributes:
+      label: How could ProblemSpot help?
+      description: Is this about reporting, validation, evidence, discovery, or tracking a solution?
+    validations:
+      required: false
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy checklist
+      options:
+        - label: I have not included sensitive personal information or private evidence.
+          required: true
+        - label: I understand that this public issue is product feedback, not a verified ProblemSpot report.
+          required: true

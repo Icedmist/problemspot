@@ -1,0 +1,69 @@
+name: Community Welcome
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+# Keep permissions minimal. This workflow only posts a welcome comment.
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  welcome:
+    name: Welcome first-time contributors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome first-time issue author
+        if: github.event_name == 'issues' && github.event.issue.author_association == 'FIRST_TIME_CONTRIBUTOR'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: [
+                `👋 Thanks for opening your first issue in **${context.repo.repo}**, @${issue.user.login}!`,
+                "",
+                "We appreciate you helping ProblemSpot make it easier for communities to report, validate, and solve real-world problems.",
+                "",
+                "A maintainer will review your issue. Please share any relevant context, reproduction steps, or screenshots (with personal information and secrets removed).",
+                "",
+                "Before contributing, you may find these guides useful:",
+                "- [README](../blob/HEAD/README.md)",
+                "- [Contributing guide](../blob/HEAD/CONTRIBUTING.md)",
+                "- [Security policy](../blob/HEAD/SECURITY.md)",
+                "",
+                "Thanks for being part of the community! 🌱"
+              ].join("\n")
+            });
+
+      - name: Welcome first-time pull request author
+        if: github.event_name == 'pull_request_target' && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: [
+                `🎉 Thank you for your first pull request to **${context.repo.repo}**, @${pr.user.login}!`,
+                "",
+                "We’re glad you’re contributing to ProblemSpot. A maintainer will review your changes and may leave suggestions or ask for clarification.",
+                "",
+                "Before review, please check that:",
+                "- [ ] The pull request explains what changed and why.",
+                "- [ ] Related issues are linked, where applicable.",
+                "- [ ] Relevant tests and quality checks have been run.",
+                "- [ ] Documentation is updated when needed.",
+                "- [ ] No secrets or private community data are included.",
+                "",
+                "See [CONTRIBUTING.md](../blob/HEAD/CONTRIBUTING.md) for the project workflow. Thank you for helping communities turn problems into solutions! 💚"
+              ].join("\n")
+            });
